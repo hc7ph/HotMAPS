@@ -17,16 +17,16 @@ def parse_arguments():
                         type=str, default='^TCGA.+.maf$',
                         help='Regex which only matches the initial mutation files')
     parser.add_argument('--host',
-                        type=str, required=True,
+                        type=str, required=False,
                         help='MySQL host')
     parser.add_argument('--db',
                         type=str, default='mupit_modbase',
                         help='MySQL MuPIT database name (default: mupit_modbase)')
     parser.add_argument('--mysql-user',
-                        type=str, required=True,
+                        type=str, required=False,
                         help='MySQL user name')
     parser.add_argument('--mysql-passwd',
-                        type=str, required=True,
+                        type=str, required=False,
                         help='MySQL password')
     parser.add_argument('-o', '--output-dir',
                         type=str, required=True,
@@ -37,10 +37,7 @@ def parse_arguments():
 
 def main(opts):
     # make mysql connection
-    db = MySQLdb.connect(host=opts['host'],
-                         user=opts['mysql_user'],
-                         passwd=opts['mysql_passwd'],
-                         db=opts['db'])
+    db = opts['db']
     cursor = db.cursor()
 
     # iterate through each tumor type
